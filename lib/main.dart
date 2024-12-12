@@ -1,22 +1,42 @@
+
+import 'package:appsmarthome/core/di/configuracao_providers.dart';
 import 'package:appsmarthome/ui/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'firebase_options.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if(Firebase.apps.isEmpty){
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform
+    );
+  }
+
+  final data = await ConfigureProviders.createDependency();
+
+  runApp(MyApp(data: data));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final ConfigureProviders data;
+
+  const MyApp({super.key,  required  this.data});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Minha Casa Inteligente',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const HomePage(),
+    return MultiProvider(providers: data.provider,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Minha Casa Inteligente',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const HomePage(),
+      )
     );
   }
 }
