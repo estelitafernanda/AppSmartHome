@@ -52,15 +52,15 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Center(
         child: _estaCarregando
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : SingleChildScrollView(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 "Bem vindo a sua casa inteligente",
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               StreamBuilder<String>(
                 stream: quartoService.tempoRealTemperatura("quarto"),
                 builder: (context, snapshot) {
@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               StreamBuilder<String>(
                 stream: quartoService.tempoRealUmidade("quarto"),
                 builder: (context, snapshot) {
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
 
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               LightButton(
                 estadoLampada: quarto.estadoLampada,
                 onPressed: () async {
@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                   await quartoService.atualizarEstadoLampada(quarto);
                 },
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               RGBControl(
                 vermelho: quarto.vermelho_rgb,
                 verde: quarto.verde_rgb,

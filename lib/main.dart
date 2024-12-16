@@ -1,6 +1,7 @@
 
 import 'package:appsmarthome/core/di/configuracao_providers.dart';
 import 'package:appsmarthome/ui/pages/home_page.dart';
+import 'package:appsmarthome/ui/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const HomePage(),
+        home: const LoginPage(),
       )
     );
   }

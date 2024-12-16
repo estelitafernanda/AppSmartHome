@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1037649741747",
+    "firebase_url": "https://appsmarthome-4b2c1-default-rtdb.firebaseio.com",
+    "project_id": "appsmarthome-4b2c1",
+    "storage_bucket": "appsmarthome-4b2c1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037649741747:android:f7ed07e5ac4ce0c5156dc6",
+        "android_client_info": {
+          "package_name": "com.example.appsmarthome"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJZ4_LVO8MPtPP4jj8-Dcjn5Ry8u9ugHE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
