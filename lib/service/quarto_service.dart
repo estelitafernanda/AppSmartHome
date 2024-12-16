@@ -50,11 +50,6 @@ class QuartoService {
     });
   }
 
-  Future<void> atualizarEstadoLampada(QuartoModel quarto) async {
-    final database = Provider.of<DatabaseService>(context, listen: false);
-    await database.atualizarEstadoLuz(quarto.nome, quarto.estadoLampada);
-  }
-
   Future<void> atualizarCoresRGB(QuartoModel quarto) async {
     final database = Provider.of<DatabaseService>(context, listen: false);
     await database.atualizarCoresRGB(quarto.nome, {

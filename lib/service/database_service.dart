@@ -20,6 +20,22 @@ class DatabaseService {
     }
   }
 
+  Future<double> getLuminosidade(String lugar) async {
+    try {
+      final snapshot = await _firebaseDatabase.child('casa/$lugar/luminosidade').get();
+      if (snapshot.exists) {
+        final valor = snapshot.value;
+        return valor is num ? valor.toDouble() : 0.0;
+      } else {
+        print('Luminosidade não encontrada para $lugar');
+        return 0.0;
+      }
+    } catch (e) {
+      print('Erro ao obter a luminosidade: $e');
+      return 0.0;
+    }
+  }
+
   Future<void> atualizarEstadoLuz(String lugar, bool isOn) async {
     try {
       await _firebaseDatabase.child('casa/$lugar/lampada').set(isOn);
