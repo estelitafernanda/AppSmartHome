@@ -2,7 +2,6 @@ class QuartoModel {
   final String nome;
   String? temperatura;
   String? umidade;
-  bool estadoLampada;
   int vermelho_rgb, verde_rgb, azul_rgb;
 
   QuartoModel(
@@ -10,16 +9,11 @@ class QuartoModel {
       required this.nome,
       this.temperatura,
       this.umidade,
-      this.estadoLampada = false,
       this.vermelho_rgb = 0,
       this.verde_rgb = 0,
       this.azul_rgb = 0
     }
   );
-
-  void alternarEstadoLampada() {
-    estadoLampada = !estadoLampada;
-  }
 
   void atualizarRGB(int r, int g, int b) {
     vermelho_rgb = r;
@@ -32,7 +26,6 @@ class QuartoModel {
         nome: nomeComodo,
         temperatura: json['temperatura']?.toString() ?? "Sem dados",
         umidade: json['umidade']?.toString() ?? "Sem dados",
-        estadoLampada: json['lampada'] ?? false,
         vermelho_rgb: json['red'] ?? 0,
         verde_rgb: json['green'] ?? 0,
         azul_rgb: json['blue'] ?? 0

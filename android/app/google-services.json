@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "371783650436",
+    "firebase_url": "https://appsmarthome-fce63-default-rtdb.firebaseio.com",
+    "project_id": "appsmarthome-fce63",
+    "storage_bucket": "appsmarthome-fce63.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:371783650436:android:613bae248df1d238dd86d1",
+        "android_client_info": {
+          "package_name": "com.example.appsmarthome"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4EcNEpO5FjHqCTfVbCzP4nP3vlBhvtRg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
