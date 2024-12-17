@@ -2,6 +2,7 @@
 import 'package:appsmarthome/core/di/configuracao_providers.dart';
 import 'package:appsmarthome/ui/pages/home_page.dart';
 import 'package:appsmarthome/ui/pages/login_page.dart';
+import 'package:appsmarthome/ui/widgets/auth_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(providers: data.provider,
+    return MultiProvider(
+      providers: data.provider,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Minha Casa Inteligente',
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const LoginPage(),
+        home: const AuthChecker(),
       )
     );
   }

@@ -50,12 +50,12 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.chat_outlined,
-              size: 150,
-              color: Theme.of(context).colorScheme.primary,
+            Image.asset(
+              'assets/smarthome.png',
+              width: 200,
+              height: 200,
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 30),
             CustomTextFormField(
               labelText: "Usuário", controller: emailController),
             const SizedBox(height: 10),
