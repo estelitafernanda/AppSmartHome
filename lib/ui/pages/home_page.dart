@@ -13,6 +13,7 @@ import 'package:appsmarthome/service/sala_service.dart';
 import 'package:appsmarthome/ui/widgets/dados_card.dart';
 import 'package:appsmarthome/ui/widgets/estado_botao.dart';
 import 'package:appsmarthome/ui/widgets/controle_rgb.dart';
+import 'package:appsmarthome/ui/widgets/comodo_widget.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -419,10 +420,20 @@ class _HomePageState extends State<HomePage> {
   late ParteExternaService parteExternaService;
   ParteExternaModel? parteExterna;
   double? _luminosidade;
+  late QuartoModel quarto;
+  late QuartoService quartoService;
+  late CozinhaModel cozinha;
+  late CozinhaService cozinhaService;
+  late SalaModel sala;
+  late SalaService salaService;
+  bool _estaCarregando = true;
 
   @override
   void initState() {
     super.initState();
+    quartoService = QuartoService(context);
+    cozinhaService = CozinhaService(context);
+    salaService = SalaService(context);
     parteExternaService = ParteExternaService(context);
 
     // atualiza parte externa em tempo real
@@ -438,6 +449,56 @@ class _HomePageState extends State<HomePage> {
         _luminosidade = luminosidade;
       });
     });
+
+    _carregarDados();
+  }
+
+  Future<void> _carregarDados() async {
+    try {
+      final quartoCarregado = await quartoService.carregarQuarto("quarto");
+      final cozinhaCarregada = await cozinhaService.carregarCozinha("cozinha");
+      final salaCarregada = await salaService.carregarSala("sala");
+
+      setState(() {
+        quarto = quartoCarregado;
+        cozinha = cozinhaCarregada;
+        sala = salaCarregada;
+        _estaCarregando = false;
+      });
+    } catch (e) {
+      print('Erro ao carregar dados: $e');
+      setState(() {
+        _estaCarregando = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao carregar dados, tente novamente.'))
+      );
+    }
+  }
+
+  // Método genérico para alterar o estado das lâmpadas
+  Future<void> _alterarEstadoLampada(bool estadoLampada, Function atualizarEstado) async {
+    setState(() {
+      estadoLampada = !estadoLampada; // Alterna o estado da lâmpada
+    });
+    await atualizarEstado(estadoLampada);
+  }
+
+  void _atualizarCorRGB(int valor, String cor) {
+    setState(() {
+      switch (cor) {
+        case 'red':
+          quarto.atualizarRGB(valor, quarto.verde_rgb, quarto.azul_rgb);
+          break;
+        case 'green':
+          quarto.atualizarRGB(quarto.vermelho_rgb, valor, quarto.azul_rgb);
+          break;
+        case 'blue':
+          quarto.atualizarRGB(quarto.vermelho_rgb, quarto.verde_rgb, valor);
+          break;
+      }
+    });
+    quartoService.atualizarCoresRGB(quarto);
   }
 
   @override
@@ -450,49 +511,96 @@ class _HomePageState extends State<HomePage> {
         ),
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
       ),
-      body: Center(
-        child: parteExterna == null || _luminosidade == null
-            ? CircularProgressIndicator()
-            : SingleChildScrollView(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 20),
-              Text(
-                "Bem vindo a sua casa inteligente",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+      body: _estaCarregando
+          ? Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/smarthome.png', 
+                    height: 200,
+                    width: 200,
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "Bem vindo a sua casa inteligente",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  const Text("PARTE EXTERNA"),
+                  LightButton(
+                    estadoLampada: parteExterna!.lampadaLigada,
+                    onPressed: () async {
+                      await _alterarEstadoLampada(parteExterna!.lampadaLigada, parteExternaService.atualizarEstadoLampada);
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Luminosidade Atual da Parte Externa: ${_luminosidade != null ? _luminosidade!.toStringAsFixed(2) + '%' : "Carregando..."}",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  StreamBuilder<String>(
+                    stream: quartoService.tempoRealTemperatura("quarto"),
+                    builder: (context, snapshot) {
+                      final temperatura = snapshot.data ?? "Sem dados";
+                      return DataCard(
+                        titulo: "Temperatura",
+                        valor: temperatura,
+                        cor: Colors.orange,
+                        isTemperature: true,
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  StreamBuilder<String>(
+                    stream: quartoService.tempoRealUmidade("quarto"),
+                    builder: (context, snapshot) {
+                      final umidade = snapshot.data ?? "Sem dados";
+                      return DataCard(
+                        titulo: "Umidade",
+                        valor: umidade,
+                        cor: Colors.blue,
+                        isTemperature: false,
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 40),
+                  LightButton(
+                    estadoLampada: cozinha.lampadaLigada,
+                    onPressed: () async {
+                      await _alterarEstadoLampada(cozinha.lampadaLigada, cozinhaService.atualizarEstadoLampada);
+                    },
+                  ),
+                  const SizedBox(height: 40),
+                  LightButton(
+                    estadoLampada: sala.lampadaLigada,
+                    onPressed: () async {
+                      await _alterarEstadoLampada(sala.lampadaLigada, salaService.atualizarEstadoLampada);
+                    },
+                  ),
+                  const SizedBox(height: 40),
+                  RGBControl(
+                    vermelho: quarto.vermelho_rgb,
+                    verde: quarto.verde_rgb,
+                    azul: quarto.azul_rgb,
+                    onRedChanged: (value) => _atualizarCorRGB(value, 'red'),
+                    onGreenChanged: (value) => _atualizarCorRGB(value, 'green'),
+                    onBlueChanged: (value) => _atualizarCorRGB(value, 'blue'),
+                  ),
+                ],
               ),
-
-              SizedBox(height: 40),
-              Text("PARTE EXTERNA"),
-              LightButton(
-                estadoLampada: parteExterna!.lampadaLigada,
-                onPressed: () async {
-                  setState(() {
-                    parteExterna!.alterarEstadoLampada();
-                  });
-                  await parteExternaService.atualizarEstadoLampada(parteExterna!);
-                },
-              ),
-
-              SizedBox(height: 20),
-              Text(
-                "Luminosidade Atual da Parte Externa: ${_luminosidade != null ? _luminosidade!.toStringAsFixed(2) + '%' : "Carregando..."}",
-                style: TextStyle(fontSize: 18),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }
+
 
 
 
