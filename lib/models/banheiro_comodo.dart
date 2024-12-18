@@ -1,11 +1,12 @@
 import 'package:appsmarthome/models/comodo.dart';
 
 class BanheiroModel extends Comodo {
+  String nome;
 
   BanheiroModel({
-    required String nome,
+    required this.nome,
     bool lampadaLigada = false,
-  }) : super(lampadaLigada: lampadaLigada, nome: nome);
+  }) : super(lampadaLigada: lampadaLigada);
 
 
   factory BanheiroModel.fromJson(String nomeComodo, Map<String, dynamic> json) {

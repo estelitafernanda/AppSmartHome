@@ -1,8 +1,7 @@
 abstract class Comodo {
-  String nome;
   bool lampadaLigada;
 
-  Comodo({this.lampadaLigada = false, required this.nome});
+  Comodo({this.lampadaLigada = false});
 
   void alterarEstadoLampada() => lampadaLigada = !lampadaLigada;
 

@@ -1,14 +1,15 @@
 import 'package:appsmarthome/models/comodo.dart';
 
 class CozinhaModel extends Comodo {
-  int luminosidade;
+  String nome;
+  double luminosidade;
   //bool sensorGas;
 
   CozinhaModel({
-    required String nome,
+    required this.nome,
     bool lampadaLigada = false,
     required this.luminosidade,
-  }) : super(lampadaLigada: lampadaLigada, nome: nome);
+  }) : super(lampadaLigada: lampadaLigada);
 
   factory CozinhaModel.fromJson(String nomeComodo, Map<String, dynamic> json) {
     return CozinhaModel(

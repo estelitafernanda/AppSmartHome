@@ -1,15 +1,16 @@
 import 'package:appsmarthome/models/comodo.dart';
 
 class SalaModel extends Comodo {
-  int luminosidade;
+  String nome;
+  double luminosidade;
   bool presencaDetectada;
 
   SalaModel({
-    required String nome,
+    required this.nome,
     bool lampadaLigada = false,
     required this.luminosidade,
     required this.presencaDetectada
-  }) : super(lampadaLigada: lampadaLigada, nome: nome);
+  }) : super(lampadaLigada: lampadaLigada);
 
 
   factory SalaModel.fromJson(String nomeComodo, Map<String, dynamic> json) {
