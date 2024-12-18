@@ -2,7 +2,7 @@ import 'package:appsmarthome/models/comodo.dart';
 
 class SalaModel extends Comodo {
   String nome;
-  int luminosidade;
+  double luminosidade;
   bool presencaDetectada;
 
   SalaModel({
