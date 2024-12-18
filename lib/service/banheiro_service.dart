@@ -1,5 +1,4 @@
 import 'package:appsmarthome/models/banheiro_comodo.dart';
-import 'package:appsmarthome/models/cozinha_comodo.dart';
 import 'package:appsmarthome/service/database_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';

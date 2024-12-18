@@ -1,5 +1,6 @@
-class QuartoModel {
-  final String nome;
+
+class QuartoModel{
+  String nome;
   String? temperatura;
   String? umidade;
   int vermelho_rgb, verde_rgb, azul_rgb;
@@ -11,9 +12,8 @@ class QuartoModel {
       this.umidade,
       this.vermelho_rgb = 0,
       this.verde_rgb = 0,
-      this.azul_rgb = 0
-    }
-  );
+      this.azul_rgb = 0, 
+    });
 
   void atualizarRGB(int r, int g, int b) {
     vermelho_rgb = r;

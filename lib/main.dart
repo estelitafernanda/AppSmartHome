@@ -25,7 +25,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   final ConfigureProviders data;
 
-  const MyApp({super.key,  required  this.data});
+  const MyApp({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {

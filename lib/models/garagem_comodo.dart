@@ -1,13 +1,12 @@
 import 'package:appsmarthome/models/comodo.dart';
 
 class GaragemModel extends Comodo {
-  String nome;
 
 
   GaragemModel({
-    required this.nome,
+    required String nome,
     bool lampadaLigada = false,
-  }) : super(lampadaLigada: lampadaLigada);
+  }) : super(lampadaLigada: lampadaLigada, nome: nome);
 
 
   factory GaragemModel.fromJson(String nomeComodo, Map<String, dynamic> json) {

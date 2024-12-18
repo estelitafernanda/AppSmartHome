@@ -15,8 +15,19 @@ class _QuartoWidgetState extends State<QuartoWidget> {
 
   bool _estaCarregando = true;
   late QuartoService quartoService;
-  late QuartoModel quarto;
-  
+  QuartoModel? quarto;
+
+ @override
+  void initState() {
+    super.initState();
+    quartoService = QuartoService(context);
+    quartoService.escutarQuarto("Quarto").listen((dados) {
+      setState(() {
+        quarto = dados;
+      });
+    });
+   // quartoService.atualizarCoresRGB(quarto);
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -33,7 +44,7 @@ class _QuartoWidgetState extends State<QuartoWidget> {
             );
           },
         ),
-        RGBControl(
+        /*RGBControl(
           vermelho: quarto.vermelho_rgb,
           verde: quarto.verde_rgb,
           azul: quarto.azul_rgb,
@@ -55,7 +66,7 @@ class _QuartoWidgetState extends State<QuartoWidget> {
             });
             quartoService.atualizarCoresRGB(quarto);
           },
-        )
+        )*/
       ],
     );
   }

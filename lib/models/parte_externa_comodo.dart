@@ -2,14 +2,13 @@
 import 'package:appsmarthome/models/comodo.dart';
 
 class ParteExternaModel extends Comodo {
-  String nome;
   double luminosidade;
 
   ParteExternaModel({
-    required this.nome,
+    required String nome,
     bool lampadaLigada = false,
     required this.luminosidade,
-  }) : super(lampadaLigada: lampadaLigada);
+  }) : super(lampadaLigada: lampadaLigada, nome: nome);
 
 
   factory ParteExternaModel.fromJson(String nomeComodo, Map<String, dynamic> json) {
