@@ -2,7 +2,7 @@ import 'package:appsmarthome/models/comodo.dart';
 
 class CozinhaModel extends Comodo {
   String nome;
-  int luminosidade;
+  double luminosidade;
   //bool sensorGas;
 
   CozinhaModel({
