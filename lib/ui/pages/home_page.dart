@@ -15,7 +15,6 @@ import 'package:appsmarthome/ui/widgets/custom_button.dart';
 import 'package:appsmarthome/ui/widgets/dados_card.dart';
 import 'package:appsmarthome/ui/widgets/estado_botao.dart';
 import 'package:appsmarthome/ui/widgets/controle_rgb.dart';
-import 'package:appsmarthome/ui/widgets/quarto_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,20 +26,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late QuartoModel quarto;
+  late QuartoModel quarto = QuartoModel(nome: "Quarto");
   late QuartoService quartoService;
-  late SalaModel sala;
+  late SalaModel sala = SalaModel(nome: "Sala", lampadaLigada: false, luminosidade: 0, presencaDetectada: false);
   late SalaService salaService;
+  late ParteExternaModel parteExterna = ParteExternaModel(nome: "Parte Externa", lampadaLigada: false, luminosidade: 0,);
   late ParteExternaService parteExternaService;
-  late ParteExternaModel parteExterna;
-  double? _luminosidade;
-  late BanheiroModel banheiro;
+  late BanheiroModel banheiro = BanheiroModel(nome: "Banheiro", lampadaLigada: false);
   late BanheiroService banheiroService;
-  late CozinhaModel cozinha;
+  late CozinhaModel cozinha = CozinhaModel(nome: "Cozinha", lampadaLigada: false, luminosidade: 0,);
   late CozinhaService cozinhaService;
-  late GaragemModel garagem;
+  late GaragemModel garagem = GaragemModel(nome: "Garagem", lampadaLigada: false);
   late GaragemService garagemService;
 
+  double? _luminosidade;
   bool _estaCarregando = true;
 
   @override
