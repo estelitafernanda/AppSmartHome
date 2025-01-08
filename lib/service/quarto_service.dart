@@ -58,4 +58,16 @@ class QuartoService {
       'B': quarto.azul_rgb,
     });
   }
+
+  Future<void> atualizarEstadoAr(QuartoModel quarto) async {
+    final database = Provider.of<DatabaseService>(context, listen: false);
+    await database.atualizarEstadoArCondicionado(quarto.nome, quarto.estadoArCondicionado);
+  }
+
+  Future<void> atualizarTemperaturaAr(QuartoModel quarto) async {
+    final database = Provider.of<DatabaseService>(context, listen: false);
+    await database.atualizarTemperaturaArCondicionado(quarto.nome, quarto.temperaturaArCondicionado);
+  }
+
+
 }

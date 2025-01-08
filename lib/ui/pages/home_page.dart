@@ -11,6 +11,8 @@ import 'package:appsmarthome/service/garagem_service.dart';
 import 'package:appsmarthome/service/parte_externa_service.dart';
 import 'package:appsmarthome/service/quarto_service.dart';
 import 'package:appsmarthome/service/sala_service.dart';
+import 'package:appsmarthome/ui/widgets/card_cozinha.dart';
+import 'package:appsmarthome/ui/widgets/card_quarto.dart';
 import 'package:appsmarthome/ui/widgets/custom_button.dart';
 import 'package:appsmarthome/ui/widgets/dados_card.dart';
 import 'package:appsmarthome/ui/widgets/estado_botao.dart';
@@ -129,6 +131,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(height: 20),
 
+                    QuartoCard(),
+                    const SizedBox(height: 40),
                     // QUARTO - Dados
                     _buildSectionTitle("QUARTO"),
                     _buildDataCardsRow(
@@ -207,6 +211,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(height: 40),
 
+                    CozinhaCard(),
+                    const SizedBox(height: 40),
                     // COZINHA - Dados
                     _buildSectionTitle("COZINHA"),
                     LightButton(

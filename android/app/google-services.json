@@ -1,14 +1,14 @@
 {
   "project_info": {
-    "project_number": "1037649741747",
-    "firebase_url": "https://appsmarthome-4b2c1-default-rtdb.firebaseio.com",
-    "project_id": "appsmarthome-4b2c1",
-    "storage_bucket": "appsmarthome-4b2c1.firebasestorage.app"
+    "project_number": "187284775542",
+    "firebase_url": "https://chat-novo-app-default-rtdb.firebaseio.com",
+    "project_id": "chat-novo-app",
+    "storage_bucket": "chat-novo-app.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1037649741747:android:f7ed07e5ac4ce0c5156dc6",
+        "mobilesdk_app_id": "1:187284775542:android:c65edc5b234c6294ec3557",
         "android_client_info": {
           "package_name": "com.example.appsmarthome"
         }
@@ -16,7 +16,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBJZ4_LVO8MPtPP4jj8-Dcjn5Ry8u9ugHE"
+          "current_key": "AIzaSyCmbgxIbCQFVz9ZeI7P_Hw57ME8s2jbMYQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187284775542:android:3915bd06fb06c9d2ec3557",
+        "android_client_info": {
+          "package_name": "ufrn.br.chat_auth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmbgxIbCQFVz9ZeI7P_Hw57ME8s2jbMYQ"
         }
       ],
       "services": {

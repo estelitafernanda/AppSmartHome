@@ -51,4 +51,25 @@ class DatabaseService {
       print('Erro ao atualizar as cores RGB: $e');
     }
   }
+
+
+  Future<void> atualizarEstadoArCondicionado(String lugar, bool isOn) async {
+    try {
+      await _firebaseDatabase.child('casa/quarto/arCondicionado/ligado').set(isOn);
+    } catch (e) {
+      print('Erro ao atualizar o estado do ar-condicionado: $e');
+    }
+  }
+
+  Future<void> atualizarTemperaturaArCondicionado(String lugar, int numero) async {
+    try {
+      await _firebaseDatabase.child('casa/quarto/arCondicionado/temperatura').set(numero);
+    } catch (e) {
+      print('Erro ao atualizar a temperatura do ar-condicionado: $e');
+    }
+  }
+
+
+
+
 }
