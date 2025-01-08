@@ -3,6 +3,7 @@ class QuartoModel{
   String nome;
   String? temperatura;
   String? umidade;
+  
   int vermelho_rgb, verde_rgb, azul_rgb;
 
   QuartoModel(
