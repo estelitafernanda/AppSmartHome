@@ -60,7 +60,7 @@ class LocationProvider with ChangeNotifier {
   void _updateRoutines() {
     if (_isAtHome) {
       // Executar rotinas de "estar em casa"
-      quartoService.atualizarEstadoLampada(QuartoModel(nome: "Quarto", lampadaLigada: true));
+      quartoService.atualizarCoresRGB(QuartoModel(nome: "Quarto", verde_rgb: 0, vermelho_rgb: 0, azul_rgb: 0,));
       salaService.atualizarEstadoLampada(SalaModel(nome: "Sala", lampadaLigada: true, luminosidade: 0, presencaDetectada: false));
       parteExternaService.atualizarEstadoLampada(ParteExternaModel(nome: "Parte Externa", lampadaLigada: true, luminosidade: 0));
       banheiroService.atualizarEstadoLampada(BanheiroModel(nome: "Banheiro", lampadaLigada: true));
@@ -68,7 +68,7 @@ class LocationProvider with ChangeNotifier {
       garagemService.atualizarEstadoLampada(GaragemModel(nome: "Garagem", lampadaLigada: true));
     } else {
       // Executar rotinas de "não estar em casa"
-      quartoService.atualizarEstadoLampada(QuartoModel(nome: "Quarto", lampadaLigada: false));
+      quartoService.atualizarCoresRGB(QuartoModel(nome: "Quarto", verde_rgb: 0, vermelho_rgb: 0, azul_rgb: 0,));
       salaService.atualizarEstadoLampada(SalaModel(nome: "Sala", lampadaLigada: false, luminosidade: 0, presencaDetectada: false));
       parteExternaService.atualizarEstadoLampada(ParteExternaModel(nome: "Parte Externa", lampadaLigada: false, luminosidade: 0));
       banheiroService.atualizarEstadoLampada(BanheiroModel(nome: "Banheiro", lampadaLigada: false));
