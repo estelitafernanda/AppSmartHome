@@ -16,7 +16,7 @@ class CozinhaCard extends StatefulWidget {
 
 class _CozinhaCard extends State<CozinhaCard> {
   bool _estaCarregando = true;
-  late CozinhaModel cozi;
+  late CozinhaModel cozi = CozinhaModel(nome: "cozinha", luminosidade: 0);
   late CozinhaService cozinhaService;
   final DatabaseReference _databaseRef = FirebaseDatabase.instance.ref();
   late Stream<DatabaseEvent> _gasStream;
