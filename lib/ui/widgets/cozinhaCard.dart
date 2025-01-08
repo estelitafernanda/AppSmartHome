@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-
 class CozinhaCard extends StatefulWidget {
   const CozinhaCard({super.key});
 
@@ -16,7 +15,7 @@ class CozinhaCard extends StatefulWidget {
 
 class _CozinhaCard extends State<CozinhaCard> {
   bool _estaCarregando = true;
-  late CozinhaModel cozi;
+  late CozinhaModel cozi = CozinhaModel(nome: 'nome', luminosidade: 0,);
   late CozinhaService cozinhaService;
   final DatabaseReference _databaseRef = FirebaseDatabase.instance.ref();
   late Stream<DatabaseEvent> _gasStream;

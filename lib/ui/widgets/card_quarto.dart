@@ -1,4 +1,4 @@
-import 'package:appsmarthome/model/quarto.dart';
+import 'package:appsmarthome/models/quarto_comodo.dart';
 import 'package:appsmarthome/service/quarto_service.dart';
 import 'package:appsmarthome/ui/widgets/notificacao.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,6 @@ class _QuartoCardState extends State<QuartoCard> {
     nome: "quarto",
     temperatura: "Sem dados",
     umidade: "Sem dados",
-    estadoLampada: false,
     vermelho_rgb: 0,
     verde_rgb: 0,
     azul_rgb: 0,
@@ -82,20 +81,6 @@ class _QuartoCardState extends State<QuartoCard> {
             ),
             const SizedBox(height: 16),
 
-            // Centraliza o botão da lâmpada
-            Center(
-              child: LightButton(
-                estadoLampada: quarto.estadoLampada,
-                onPressed: () async {
-                  setState(() {
-                    quarto.alternarEstadoLampada();
-                  });
-                  await quartoService.atualizarEstadoLampada(quarto);
-                },
-              ),
-            ),
-            const SizedBox(height: 16),
-
             // Exibição do estado do ar-condicionado
             Text(
               "Ar-Condicionado: ${quarto.estadoArCondicionado ? 'Ligado' : 'Desligado'}",
@@ -129,8 +114,8 @@ class _QuartoCardState extends State<QuartoCard> {
                   onPressed: quarto.estadoArCondicionado
                       ? () async {
                     setState(() {
-                      quarto.ajustarTemperaturaArCondicionado(
-                          (quarto.temperaturaArCondicionado ?? 24.0) + 1.0);
+                      quarto.ajustarTemperaturaAr(
+                          (quarto.temperaturaArCondicionado ?? 24) + 1);
                     });
                     await quartoService.atualizarTemperaturaAr(quarto);
                   }
@@ -141,8 +126,8 @@ class _QuartoCardState extends State<QuartoCard> {
                   onPressed: quarto.estadoArCondicionado
                       ? () async {
                     setState(() {
-                      quarto.ajustarTemperaturaArCondicionado(
-                          (quarto.temperaturaArCondicionado ?? 24.0) - 1.0);
+                      quarto.ajustarTemperaturaAr(
+                          (quarto.temperaturaArCondicionado ?? 24) - 1);
                     });
                     await quartoService.atualizarTemperaturaAr(quarto);
                   }

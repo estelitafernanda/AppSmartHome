@@ -37,11 +37,13 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_native_splash: ^2.4.3
   provider: ^6.1.2
-  firebase_database: ^11.3.0
+  firebase_core: ^3.9.0
+  firebase_database: ^11.2.0
+  firebase_auth: ^5.3.4
+  flutter_launcher_icons: ^0.14.2
   flutter_local_notifications: ^18.0.1
   permission_handler: ^11.3.1
   overlay_support: ^2.1.0
-  firebase_core: ^3.10.0
 
 dev_dependencies:
   flutter_test:
@@ -66,9 +68,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/smarthome.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -95,6 +97,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
 flutter_native_splash:
   # This package generates native code to customize Flutter's default white native splash screen
   # with background color and splash image.
@@ -246,3 +249,10 @@ flutter_native_splash:
   #info_plist_files:
   #  - 'ios/Runner/Info-Debug.plist'
   #  - 'ios/Runner/Info-Release.plist'
+
+flutter_launcher_icons:
+    android: true
+    image_path: "assets/smarthome.png"
+    min_sdk_android: 21
+    adaptive_icon_background: "#FFFFFF"
+    adaptive_icon_foreground: "assets/smarthome.png"

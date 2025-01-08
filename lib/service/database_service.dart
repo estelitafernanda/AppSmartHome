@@ -20,28 +20,27 @@ class DatabaseService {
     }
   }
 
-  Future<void> atualizarEstadoLuz(String lugar, bool isOn) async {
+  Future<double> getLuminosidade(String lugar) async {
     try {
-      await _firebaseDatabase.child('casa/$lugar/luz').set(isOn);
+      final snapshot = await _firebaseDatabase.child('casa/$lugar/luminosidade').get();
+      if (snapshot.exists) {
+        final valor = snapshot.value;
+        return valor is num ? valor.toDouble() : 0.0;
+      } else {
+        print('Luminosidade não encontrada para $lugar');
+        return 0.0;
+      }
     } catch (e) {
-      print('Erro ao atualizar o estado da luz: $e');
+      print('Erro ao obter a luminosidade: $e');
+      return 0.0;
     }
   }
 
-  // Ar-condicionado
-  Future<void> alterarEstadoAr(String lugar, bool isOn) async {
+  Future<void> atualizarEstadoLuz(String lugar, bool isOn) async {
     try {
-      await _firebaseDatabase.child('casa/$lugar/arCondicionado/ligado').set(isOn);
+      await _firebaseDatabase.child('casa/$lugar/lampada').set(isOn);
     } catch (e) {
-      print('Erro ao atualizar o estado do ar-condicionado: $e');
-    }
-  }
-  //ar-condicionado
-  Future<void> atualizarTemperaturaAr(String lugar, double temperatura) async {
-    try {
-      await _firebaseDatabase.child('casa/$lugar/arCondicionado/temperatura').set(temperatura);
-    } catch (e) {
-      print('Erro ao atualizar a temperatura do ar-condicionado: $e');
+      print('Erro ao atualizar o estado da luz: $e');
     }
   }
 
@@ -52,4 +51,25 @@ class DatabaseService {
       print('Erro ao atualizar as cores RGB: $e');
     }
   }
+
+
+  Future<void> atualizarEstadoArCondicionado(String lugar, bool isOn) async {
+    try {
+      await _firebaseDatabase.child('casa/quarto/arCondicionado/ligado').set(isOn);
+    } catch (e) {
+      print('Erro ao atualizar o estado do ar-condicionado: $e');
+    }
+  }
+
+  Future<void> atualizarTemperaturaArCondicionado(String lugar, int numero) async {
+    try {
+      await _firebaseDatabase.child('casa/quarto/arCondicionado/temperatura').set(numero);
+    } catch (e) {
+      print('Erro ao atualizar a temperatura do ar-condicionado: $e');
+    }
+  }
+
+
+
+
 }

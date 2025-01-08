@@ -1,7 +1,7 @@
 import 'package:appsmarthome/service/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:appsmarthome/model/quarto.dart';
+import 'package:appsmarthome/models/quarto_comodo.dart';
 
 class QuartoService {
   final BuildContext context;
@@ -50,22 +50,6 @@ class QuartoService {
     });
   }
 
-  Future<void> atualizarEstadoLampada(QuartoModel quarto) async {
-    final database = Provider.of<DatabaseService>(context, listen: false);
-    await database.atualizarEstadoLuz(quarto.nome, quarto.estadoLampada);
-  }
-
-  Future<void> atualizarEstadoAr(QuartoModel quarto) async {
-    final database = Provider.of<DatabaseService>(context, listen: false);
-    await database.alterarEstadoAr(quarto.nome, quarto.estadoArCondicionado);
-  }
-
-  Future<void> atualizarTemperaturaAr(QuartoModel quarto) async {
-    final database = Provider.of<DatabaseService>(context, listen: false);
-    await database.atualizarTemperaturaAr(quarto.nome, quarto.temperaturaArCondicionado);
-  }
-
-
   Future<void> atualizarCoresRGB(QuartoModel quarto) async {
     final database = Provider.of<DatabaseService>(context, listen: false);
     await database.atualizarCoresRGB(quarto.nome, {
@@ -74,4 +58,16 @@ class QuartoService {
       'B': quarto.azul_rgb,
     });
   }
+
+  Future<void> atualizarEstadoAr(QuartoModel quarto) async {
+    final database = Provider.of<DatabaseService>(context, listen: false);
+    await database.atualizarEstadoArCondicionado(quarto.nome, quarto.estadoArCondicionado);
+  }
+
+  Future<void> atualizarTemperaturaAr(QuartoModel quarto) async {
+    final database = Provider.of<DatabaseService>(context, listen: false);
+    await database.atualizarTemperaturaArCondicionado(quarto.nome, quarto.temperaturaArCondicionado);
+  }
+
+
 }

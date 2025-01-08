@@ -1,22 +1,22 @@
-import 'package:appsmarthome/models/cozinha_comodo.dart';
+import 'package:appsmarthome/models/banheiro_comodo.dart';
 import 'package:appsmarthome/service/database_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-class CozinhaService {
+class BanheiroService {
   final BuildContext context;
 
-  CozinhaService(this.context);
+  BanheiroService(this.context);
 
-  Future<CozinhaModel> carregarCozinha(String nome) async {
+  Future<BanheiroModel> carregarBanheiro(String nome) async {
     final database = Provider.of<DatabaseService>(context, listen: false);
     final dados = await database.getAll(nome);
 
-    return CozinhaModel.fromJson(nome, dados);
+    return BanheiroModel.fromJson(nome, dados);
   }
 
-  Future<void> atualizarEstadoLampada(CozinhaModel cozinha) async {
+  Future<void> atualizarEstadoLampada(BanheiroModel banheiro) async {
     final database = Provider.of<DatabaseService>(context, listen: false);
-    await database.atualizarEstadoLuz(cozinha.nome, cozinha.lampadaLigada);
+    await database.atualizarEstadoLuz(banheiro.nome, banheiro.lampadaLigada);
   }
 }
