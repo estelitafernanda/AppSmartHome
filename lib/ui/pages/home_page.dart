@@ -1,3 +1,4 @@
+import 'package:appsmarthome/ui/widgets/card_cozinha.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,6 +19,7 @@ class _HomePageState extends State<HomePage> {
         ),
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
       ),
+      body: CozinhaCard(),
     );
   }
 }
