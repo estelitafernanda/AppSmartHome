@@ -2,11 +2,14 @@ import 'package:appsmarthome/models/comodo.dart';
 
 class GaragemModel extends Comodo {
   String nome;
+  bool estadoMotor = false;
 
 
   GaragemModel({
     required this.nome,
     bool lampadaLigada = false,
+    required this.estadoMotor,
+
   }) : super(lampadaLigada: lampadaLigada);
 
 
@@ -14,6 +17,8 @@ class GaragemModel extends Comodo {
     return GaragemModel(
         nome: nomeComodo,
         lampadaLigada: json['lampada'] ?? false,
+        estadoMotor: json['motor'] ?? false,
+
     );
   }
 

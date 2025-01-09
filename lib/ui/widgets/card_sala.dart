@@ -1,43 +1,44 @@
-import 'package:appsmarthome/models/cozinha_comodo.dart';
-import 'package:appsmarthome/service/cozinha_service.dart';
+import 'package:appsmarthome/models/sala_comodo.dart';
+import 'package:appsmarthome/service/sala_service.dart';
 import 'package:appsmarthome/ui/widgets/estado_botao.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class CozinhaCard extends StatefulWidget {
-  const CozinhaCard({super.key});
+
+class SalaCard extends StatefulWidget {
+  const SalaCard({super.key});
 
   @override
-  State<StatefulWidget> createState() => _CozinhaCard();
+  State<StatefulWidget> createState() => _SalaCard();
 }
 
-class _CozinhaCard extends State<CozinhaCard> {
+class _SalaCard extends State<SalaCard> {
   bool _estaCarregando = true;
-  late CozinhaModel cozi = CozinhaModel(nome: 'nome', luminosidade: 0,);
-  late CozinhaService cozinhaService;
+  late SalaModel sala = SalaModel(nome: "sala", luminosidade: 0, presencaDetectada: false);
+  late SalaService salaService;
   final DatabaseReference _databaseRef = FirebaseDatabase.instance.ref();
-  late Stream<DatabaseEvent> _gasStream;
+  late Stream<DatabaseEvent> _presencaStream;
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
 
   @override
   void initState() {
     super.initState();
-    cozinhaService = CozinhaService(context);
+    salaService = SalaService(context);
     _carregarDados();
     _inicializarNotificacoes();
     _verificarPermissaoNotificacoes(); // Adicionado aqui
-    _inicializarStreamGas();
+    _inicializarStreamSala();
   }
 
   Future<void> _carregarDados() async {
     try {
-      final comodoCarregado = await cozinhaService.carregarCozinha("cozinha");
+      final comodoCarregado = await salaService.carregarSala("sala");
 
       setState(() {
-        cozi = comodoCarregado;
+        sala = comodoCarregado;
         _estaCarregando = false;
       });
     } catch (e) {
@@ -80,14 +81,14 @@ class _CozinhaCard extends State<CozinhaCard> {
   }
 
   /// Inicializa o stream para monitorar o campo "gas"
-  void _inicializarStreamGas() {
-    _gasStream = _databaseRef.child('casa/cozinha/gas').onValue;
+  void _inicializarStreamSala() {
+    _presencaStream = _databaseRef.child('casa/sala/presenca').onValue;
 
-    _gasStream.listen((event) {
-      final valorGas = event.snapshot.value;
+    _presencaStream.listen((event) {
+      final valorPresenca = event.snapshot.value;
 
-      if (valorGas == true) {
-        _acionarAlertaGas();
+      if (valorPresenca == true) {
+        _acionarAlertaPresenca();
       }
     }, onError: (error) {
       print("Erro ao monitorar gás via stream: $error");
@@ -95,7 +96,7 @@ class _CozinhaCard extends State<CozinhaCard> {
   }
 
   /// Ação disparada quando o valor do gás for true
-  void _acionarAlertaGas() {
+  void _acionarAlertaPresenca() {
     _mostrarNotificacao();
 
     // Opcional: Exibir um diálogo de alerta na interface do app
@@ -103,8 +104,8 @@ class _CozinhaCard extends State<CozinhaCard> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Alerta de Gás!"),
-          content: const Text("Um nível perigoso de gás foi detectado na cozinha."),
+          title: const Text("Alerta de Presença!"),
+          content: const Text("Uma presença foi detectada."),
           actions: [
             TextButton(
               onPressed: () {
@@ -122,9 +123,9 @@ class _CozinhaCard extends State<CozinhaCard> {
   Future<void> _mostrarNotificacao() async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
-      'gas_alert_channel',
-      'Alerta de Gás',
-      channelDescription: 'Notificação para alertar sobre níveis perigosos de gás.',
+      'presenca_alert_channel',
+      'Alerta de Presença',
+      channelDescription: 'Notificação para alertar sobre presença.',
       importance: Importance.max,
       priority: Priority.high,
       ticker: 'ticker',
@@ -137,8 +138,8 @@ class _CozinhaCard extends State<CozinhaCard> {
 
     await _flutterLocalNotificationsPlugin.show(
       0, // ID da notificação
-      'Alerta de Gás!', // Título
-      'Um nível perigoso de gás foi detectado na cozinha.', // Corpo
+      'Alerta de Presença!', // Título
+      'Uma presença foi detectada.', // Corpo
       platformChannelSpecifics,
     );
   }
@@ -156,20 +157,20 @@ class _CozinhaCard extends State<CozinhaCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "Cozinha",
+              "Sala",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 15),
             Center(
               child: _estaCarregando
                   ? const CircularProgressIndicator()
                   : LightButton(
-                estadoLampada: cozi.lampadaLigada,
+                estadoLampada: sala.lampadaLigada,
                 onPressed: () async {
                   setState(() {
-                    cozi.alterarEstadoLampada();
+                    sala.alterarEstadoLampada();
                   });
-                  await cozinhaService.atualizarEstadoLampada(cozi);
+                  await salaService.atualizarEstadoLampada(sala);
                 },
               ),
             ),

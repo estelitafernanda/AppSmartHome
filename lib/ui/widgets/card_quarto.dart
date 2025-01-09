@@ -1,13 +1,9 @@
 import 'package:appsmarthome/models/quarto_comodo.dart';
 import 'package:appsmarthome/service/quarto_service.dart';
-import 'package:appsmarthome/ui/widgets/notificacao.dart';
+import 'package:appsmarthome/ui/pages/quarto_page.dart';
 import 'package:flutter/material.dart';
-import 'package:overlay_support/overlay_support.dart';
-
-import 'estado_botao.dart';
 
 class QuartoCard extends StatefulWidget {
-  // Título do card
   const QuartoCard({Key? key}) : super(key: key);
 
   @override
@@ -57,86 +53,97 @@ class _QuartoCardState extends State<QuartoCard> {
   @override
   Widget build(BuildContext context) {
     if (_estaCarregando) {
-      return Center(
+      return const Center(
         child: CircularProgressIndicator(),
       );
     }
-    return Card(
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Título do Card
-            Text(
-              "Quarto",
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Exibição do estado do ar-condicionado
-            Text(
-              "Ar-Condicionado: ${quarto.estadoArCondicionado ? 'Ligado' : 'Desligado'}",
-              style: const TextStyle(fontSize: 16),
-            ),
-            Text(
-              "Temperatura: ${quarto.temperaturaArCondicionado} °C",
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 16),
-
-            // Botão de ligar/desligar
-            Center(
-              child: ElevatedButton(
-                onPressed: () async {
-                  setState(() {
-                    quarto.alternarEstadoArCondicionado();
-                  });
-                  await quartoService.atualizarEstadoAr(quarto);
-                },
-                child: Text(quarto.estadoArCondicionado ? "Desligar" : "Ligar"),
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Botões de aumentar e diminuir temperatura lado a lado
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: quarto.estadoArCondicionado
-                      ? () async {
-                    setState(() {
-                      quarto.ajustarTemperaturaAr(
-                          (quarto.temperaturaArCondicionado ?? 24) + 1);
-                    });
-                    await quartoService.atualizarTemperaturaAr(quarto);
-                  }
-                      : null,
-                  child: const Text("Aumentar"),
+    return GestureDetector(
+      onTap: () {
+        // Navegação para a tela de detalhes ao clicar no Card
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => QuartoDetalhesPage(quarto: quarto),
+          ),
+        );
+      },
+      child: Card(
+        elevation: 4.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Título do Card
+              const Text(
+                "Quarto",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-                ElevatedButton(
-                  onPressed: quarto.estadoArCondicionado
-                      ? () async {
+              ),
+              const SizedBox(height: 16),
+
+              // Exibição do estado do ar-condicionado
+              Text(
+                "Ar-Condicionado: ${quarto.estadoArCondicionado ? 'Ligado' : 'Desligado'}",
+                style: const TextStyle(fontSize: 16),
+              ),
+              Text(
+                "Temperatura: ${quarto.temperaturaArCondicionado} °C",
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 16),
+
+              // Botão de ligar/desligar
+              Center(
+                child: ElevatedButton(
+                  onPressed: () async {
                     setState(() {
-                      quarto.ajustarTemperaturaAr(
-                          (quarto.temperaturaArCondicionado ?? 24) - 1);
+                      quarto.alternarEstadoArCondicionado();
                     });
-                    await quartoService.atualizarTemperaturaAr(quarto);
-                  }
-                      : null,
-                  child: const Text("Diminuir"),
+                    await quartoService.atualizarEstadoAr(quarto);
+                  },
+                  child: Text(quarto.estadoArCondicionado ? "Desligar" : "Ligar"),
                 ),
-              ],
-            ),
-          ],
+              ),
+              const SizedBox(height: 16),
+
+              // Botões de aumentar e diminuir temperatura lado a lado
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: quarto.estadoArCondicionado
+                        ? () async {
+                            setState(() {
+                              quarto.ajustarTemperaturaAr(
+                                  (quarto.temperaturaArCondicionado ?? 24) + 1);
+                            });
+                            await quartoService.atualizarTemperaturaAr(quarto);
+                          }
+                        : null,
+                    child: const Text("Aumentar"),
+                  ),
+                  ElevatedButton(
+                    onPressed: quarto.estadoArCondicionado
+                        ? () async {
+                            setState(() {
+                              quarto.ajustarTemperaturaAr(
+                                  (quarto.temperaturaArCondicionado ?? 24) - 1);
+                            });
+                            await quartoService.atualizarTemperaturaAr(quarto);
+                          }
+                        : null,
+                    child: const Text("Diminuir"),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

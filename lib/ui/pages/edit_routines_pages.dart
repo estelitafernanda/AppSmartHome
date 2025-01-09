@@ -32,7 +32,7 @@ class _EditRoutinesPageState extends State<EditRoutinesPage> {
     super.dispose();
   }
 
-  @override
+    @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -41,38 +41,36 @@ class _EditRoutinesPageState extends State<EditRoutinesPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _homeLatitudeController,
-              decoration: InputDecoration(labelText: "Latitude da Casa"),
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-            ),
-            TextField(
-              controller: _homeLongitudeController,
-              decoration: InputDecoration(labelText: "Longitude da Casa"),
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-            ),
-            TextField(
-              controller: _radiusController,
-              decoration: InputDecoration(labelText: "Raio (em graus)"),
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                final locationProvider = Provider.of<LocationProvider>(context, listen: false);
-                locationProvider.updateLocation();
-                // Salve as novas rotinas (você pode implementar a lógica para salvar as rotinas de acordo com as novas coordenadas e raio)
-                setState(() {
-                  // Atualize a lógica de checagem de casa
-                  locationProvider.updateLocation();
-                });
-                Navigator.pop(context);
-              },
-              child: Text("Salvar Rotinas"),
-            ),
-          ],
+        child: Consumer<LocationProvider>(
+          builder: (context, locationProvider, child) {
+            return Column(
+              children: [
+                TextField(
+                  controller: _homeLatitudeController,
+                  decoration: InputDecoration(labelText: "Latitude da Casa"),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                ),
+                TextField(
+                  controller: _homeLongitudeController,
+                  decoration: InputDecoration(labelText: "Longitude da Casa"),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                ),
+                TextField(
+                  controller: _radiusController,
+                  decoration: InputDecoration(labelText: "Raio (em graus)"),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    locationProvider.updateLocation();
+                    Navigator.pop(context);
+                  },
+                  child: Text("Salvar Rotinas"),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

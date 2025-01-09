@@ -17,7 +17,7 @@ class LightButton extends StatelessWidget {
       ),
       label: Text(estadoLampada ? "Desligar Luz" : "Ligar Luz"),
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         backgroundColor: Colors.grey,
         foregroundColor: Colors.black,
       ),

@@ -65,7 +65,7 @@ class LocationProvider with ChangeNotifier {
       parteExternaService.atualizarEstadoLampada(ParteExternaModel(nome: "Parte Externa", lampadaLigada: true, luminosidade: 0));
       banheiroService.atualizarEstadoLampada(BanheiroModel(nome: "Banheiro", lampadaLigada: true));
       cozinhaService.atualizarEstadoLampada(CozinhaModel(nome: "Cozinha", lampadaLigada: true, luminosidade: 0));
-      garagemService.atualizarEstadoLampada(GaragemModel(nome: "Garagem", lampadaLigada: true));
+      garagemService.atualizarEstadoLampada(GaragemModel(nome: "Garagem", lampadaLigada: true, estadoMotor: false));
     } else {
       // Executar rotinas de "não estar em casa"
       quartoService.atualizarCoresRGB(QuartoModel(nome: "Quarto", verde_rgb: 0, vermelho_rgb: 0, azul_rgb: 0,));
@@ -73,7 +73,7 @@ class LocationProvider with ChangeNotifier {
       parteExternaService.atualizarEstadoLampada(ParteExternaModel(nome: "Parte Externa", lampadaLigada: false, luminosidade: 0));
       banheiroService.atualizarEstadoLampada(BanheiroModel(nome: "Banheiro", lampadaLigada: false));
       cozinhaService.atualizarEstadoLampada(CozinhaModel(nome: "Cozinha", lampadaLigada: false, luminosidade: 0));
-      garagemService.atualizarEstadoLampada(GaragemModel(nome: "Garagem", lampadaLigada: false));
+      garagemService.atualizarEstadoLampada(GaragemModel(nome: "Garagem", lampadaLigada: false, estadoMotor: false));
     }
   }
 }

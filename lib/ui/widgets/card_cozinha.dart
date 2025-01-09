@@ -160,7 +160,7 @@ class _CozinhaCard extends State<CozinhaCard> {
               "Cozinha",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 15),
             Center(
               child: _estaCarregando
                   ? const CircularProgressIndicator()
