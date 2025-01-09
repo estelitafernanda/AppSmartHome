@@ -1,3 +1,4 @@
+import 'package:appsmarthome/models/banheiro_comodo.dart';
 import 'package:appsmarthome/models/cozinha_comodo.dart';
 import 'package:appsmarthome/models/garagem_comodo.dart';
 import 'package:appsmarthome/models/quarto_comodo.dart';
@@ -11,6 +12,8 @@ import 'package:appsmarthome/service/sala_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../../models/parte_externa_comodo.dart';
+
 class LocationProvider with ChangeNotifier {
   Position? _currentPosition;
   bool _isAtHome = false;
@@ -19,6 +22,8 @@ class LocationProvider with ChangeNotifier {
   bool ligarLuzSala = false;
   bool ligarLuzCozinha = false;
   bool ligarLuzGaragem = false;
+  bool ligarLuzBanheiro = false;
+  bool ligarLuzParteExterna = false;
 
   // Serviços
   final QuartoService quartoService;
@@ -40,55 +45,109 @@ class LocationProvider with ChangeNotifier {
   Position? get currentPosition => _currentPosition;
   bool get isAtHome => _isAtHome;
 
-  Future<void> updateLocation() async {
-    _currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    notifyListeners();
-    _checkAndUpdateRoutines(_currentPosition!);
-  }
-
-  // Método para salvar as preferências de rotinas (incluindo os valores RGB)
-  void saveRoutine({
+  Future<void> updateLocation({
     required bool ligarLuzSala,
     required bool ligarLuzCozinha,
     required bool ligarLuzGaragem,
+    required bool ligarLuzBanheiro,
+    required bool ligarLuzParteExterna,
     required int vermelhoRgbQuarto,
     required int verdeRgbQuarto,
     required int azulRgbQuarto,
-  }) {
-
-    // Atualizando as cores do quarto
-    if (vermelhoRgbQuarto != null && verdeRgbQuarto != null && azulRgbQuarto != null) {
-      quartoService.atualizarCoresRGB(QuartoModel(
-        nome: "Quarto",
-        vermelho_rgb: vermelhoRgbQuarto,
-        verde_rgb: verdeRgbQuarto,
-        azul_rgb: azulRgbQuarto,
-      ));
-    }
-
+  }) async {
+    _currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     notifyListeners();
+
+    _checkAndUpdateRoutines(
+      _currentPosition!,
+      ligarLuzSala: ligarLuzSala,
+      ligarLuzCozinha: ligarLuzCozinha,
+      ligarLuzGaragem: ligarLuzGaragem,
+      ligarLuzBanheiro: ligarLuzBanheiro,
+      ligarLuzParteExterna: ligarLuzParteExterna,
+      vermelhoRgbQuarto: vermelhoRgbQuarto,
+      verdeRgbQuarto: verdeRgbQuarto,
+      azulRgbQuarto: azulRgbQuarto,
+    );
   }
 
-  // Verifica se o usuário está em casa e dispara rotinas
-  void _checkAndUpdateRoutines(Position position) {
+
+  void _checkAndUpdateRoutines(
+      Position position, {
+        required bool ligarLuzSala,
+        required bool ligarLuzCozinha,
+        required bool ligarLuzGaragem,
+        required bool ligarLuzBanheiro,
+        required bool ligarLuzParteExterna,
+        required int vermelhoRgbQuarto,
+        required int verdeRgbQuarto,
+        required int azulRgbQuarto,
+      }) {
     bool isAtHome = _checkIfAtHome(position);
+
+    _isAtHome = isAtHome;
+
     if (isAtHome) {
-      _isAtHome = true;
+      // Rotinas quando o usuário está em casa
       if (ligarLuzSala) {
-        salaService.atualizarEstadoLampada(SalaModel(nome: "Sala", lampadaLigada: true));
+        salaService.atualizarEstadoLampada(
+          SalaModel(nome: "sala", lampadaLigada: true),
+        );
       }
       if (ligarLuzCozinha) {
-        cozinhaService.atualizarEstadoLampada(CozinhaModel(nome: "Cozinha", lampadaLigada: true));
+        cozinhaService.atualizarEstadoLampada(
+          CozinhaModel(nome: "cozinha", lampadaLigada: true),
+        );
       }
       if (ligarLuzGaragem) {
-        garagemService.atualizarEstadoLampada(GaragemModel(nome: "Garagem", lampadaLigada: true));
+        garagemService.atualizarEstadoLampada(
+          GaragemModel(nome: "garagem", lampadaLigada: true),
+        );
       }
-      
+      if (ligarLuzBanheiro) {
+        banheiroService.atualizarEstadoLampada(
+          BanheiroModel(nome: "banheiro", lampadaLigada: true),
+        );
+      }
+      if (ligarLuzParteExterna) {
+        parteExternaService.atualizarEstadoLampada(
+          ParteExternaModel(nome: "parteExterna", lampadaLigada: true),
+        );
+      }
+      // Atualiza as cores RGB do quarto
+      quartoService.atualizarCoresRGB(
+        QuartoModel(
+          nome: "lampadaRGB",
+          vermelho_rgb: vermelhoRgbQuarto,
+          verde_rgb: verdeRgbQuarto,
+          azul_rgb: azulRgbQuarto,
+        ),
+      );
+
+
     } else {
-      _isAtHome = false;
+      // Rotinas quando o usuário não está em casa
+      salaService.atualizarEstadoLampada(
+        SalaModel(nome: "sala", lampadaLigada: false),
+      );
+      cozinhaService.atualizarEstadoLampada(
+        CozinhaModel(nome: "cozinha", lampadaLigada: false),
+      );
+      garagemService.atualizarEstadoLampada(
+        GaragemModel(nome: "garagem", lampadaLigada: false),
+      );
+      banheiroService.atualizarEstadoLampada(
+        BanheiroModel(nome: "banheiro", lampadaLigada: false),
+      );
+      parteExternaService.atualizarEstadoLampada(
+        ParteExternaModel(nome: "parteExterna", lampadaLigada: false),
+      );
+      quartoService.atualizarCoresRGB(QuartoModel(nome: "lampadaRGB", verde_rgb: 0, vermelho_rgb: 0, azul_rgb: 0));
     }
+
     notifyListeners();
   }
+
 
   // Método para verificar se está em casa (dentro de um raio fixo)
   bool _checkIfAtHome(Position position) {
