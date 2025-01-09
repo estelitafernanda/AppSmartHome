@@ -1,3 +1,5 @@
+import 'package:appsmarthome/models/cozinha_comodo.dart';
+import 'package:appsmarthome/models/garagem_comodo.dart';
 import 'package:appsmarthome/models/quarto_comodo.dart';
 import 'package:appsmarthome/models/sala_comodo.dart';
 import 'package:appsmarthome/service/banheiro_service.dart';
@@ -14,8 +16,9 @@ class LocationProvider with ChangeNotifier {
   bool _isAtHome = false;
 
   // Controle de estados para rotinas
-  bool ligarLuzQuarto = false;
   bool ligarLuzSala = false;
+  bool ligarLuzCozinha = false;
+  bool ligarLuzGaragem = false;
 
   // Serviços
   final QuartoService quartoService;
@@ -43,13 +46,26 @@ class LocationProvider with ChangeNotifier {
     _checkAndUpdateRoutines(_currentPosition!);
   }
 
-  // Método para salvar as preferências de rotinas
+  // Método para salvar as preferências de rotinas (incluindo os valores RGB)
   void saveRoutine({
-    required bool luzQuarto,
-    required bool luzSala,
+    required bool ligarLuzSala,
+    required bool ligarLuzCozinha,
+    required bool ligarLuzGaragem,
+    required int vermelhoRgbQuarto,
+    required int verdeRgbQuarto,
+    required int azulRgbQuarto,
   }) {
-    this.ligarLuzQuarto = luzQuarto;
-    this.ligarLuzSala = luzSala;
+
+    // Atualizando as cores do quarto
+    if (vermelhoRgbQuarto != null && verdeRgbQuarto != null && azulRgbQuarto != null) {
+      quartoService.atualizarCoresRGB(QuartoModel(
+        nome: "Quarto",
+        vermelho_rgb: vermelhoRgbQuarto,
+        verde_rgb: verdeRgbQuarto,
+        azul_rgb: azulRgbQuarto,
+      ));
+    }
+
     notifyListeners();
   }
 
@@ -61,11 +77,15 @@ class LocationProvider with ChangeNotifier {
       if (ligarLuzSala) {
         salaService.atualizarEstadoLampada(SalaModel(nome: "Sala", lampadaLigada: true));
       }
+      if (ligarLuzCozinha) {
+        cozinhaService.atualizarEstadoLampada(CozinhaModel(nome: "Cozinha", lampadaLigada: true));
+      }
+      if (ligarLuzGaragem) {
+        garagemService.atualizarEstadoLampada(GaragemModel(nome: "Garagem", lampadaLigada: true));
+      }
+      
     } else {
       _isAtHome = false;
-      if (luzQuarto) {
-        quartoService.atualizarCoresRGB(QuartoModel(nome: "Quarto", azul_rgb: 0, verde_rgb: 0, vermelho_rgb: 0));
-      }
     }
     notifyListeners();
   }

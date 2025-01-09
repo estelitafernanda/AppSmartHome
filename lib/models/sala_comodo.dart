@@ -9,7 +9,7 @@ class SalaModel extends Comodo {
     required this.nome,
     bool lampadaLigada = false,
     this.luminosidade=0.0,
-    required this.presencaDetectada
+    this.presencaDetectada =false,
   }) : super(lampadaLigada: lampadaLigada);
 
 

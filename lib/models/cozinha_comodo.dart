@@ -8,7 +8,7 @@ class CozinhaModel extends Comodo {
   CozinhaModel({
     required this.nome,
     bool lampadaLigada = false,
-    required this.luminosidade,
+    this.luminosidade=0.0,
     this.sensorGas = false,
   }) : super(lampadaLigada: lampadaLigada);
 

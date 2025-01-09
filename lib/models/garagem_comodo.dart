@@ -8,7 +8,7 @@ class GaragemModel extends Comodo {
   GaragemModel({
     required this.nome,
     bool lampadaLigada = false,
-    required this.estadoMotor,
+    this.estadoMotor = false,
 
   }) : super(lampadaLigada: lampadaLigada);
 
