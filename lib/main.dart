@@ -11,10 +11,14 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if(Firebase.apps.isEmpty){
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform
-    );
+  try{
+    if(Firebase.apps.isEmpty){
+      await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform
+      );
+    }
+  } catch (e){
+    print('Firebase iniciado: $e');
   }
 
   final data = await ConfigureProviders.createDependency();
