@@ -12,6 +12,7 @@ import 'package:appsmarthome/service/parte_externa_service.dart';
 import 'package:appsmarthome/service/quarto_service.dart';
 import 'package:appsmarthome/service/sala_service.dart';
 import 'package:appsmarthome/ui/pages/edit_routines_pages.dart';
+import 'package:appsmarthome/ui/pages/edit_routines_pages.dart';
 import 'package:appsmarthome/ui/widgets/card_banheiro.dart';
 import 'package:appsmarthome/ui/widgets/card_cozinha.dart';
 import 'package:appsmarthome/ui/widgets/card_garagem.dart';

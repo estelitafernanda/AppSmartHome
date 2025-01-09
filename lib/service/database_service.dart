@@ -69,6 +69,13 @@ class DatabaseService {
     }
   }
 
+  Future<void> atualizarEstadoMotor(String lugar, bool isOn) async {
+    try {
+      await _firebaseDatabase.child('casa/garagem/motor').set(isOn);
+    } catch (e) {
+      print('Erro ao atualizar o estado do motor: $e');
+    }
+  }
 
 
 

@@ -19,4 +19,9 @@ class GaragemService {
     final database = Provider.of<DatabaseService>(context, listen: false);
     await database.atualizarEstadoLuz(garagem.nome, garagem.lampadaLigada);
   }
+
+  Future<void> atualizarEstadoMotor(GaragemModel garagem) async {
+    final database = Provider.of<DatabaseService>(context, listen: false);
+    await database.atualizarEstadoMotor(garagem.nome, garagem.estadoMotor);
+  }
 }
