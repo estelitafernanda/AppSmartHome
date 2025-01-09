@@ -8,7 +8,7 @@ class ParteExternaModel extends Comodo {
   ParteExternaModel({
     required this.nome,
     bool lampadaLigada = false,
-    required this.luminosidade,
+    this.luminosidade=0.0,
   }) : super(lampadaLigada: lampadaLigada);
 
 
