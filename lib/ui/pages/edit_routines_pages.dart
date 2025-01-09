@@ -8,26 +8,23 @@ class EditRoutinesPage extends StatefulWidget {
 }
 
 class _EditRoutinesPageState extends State<EditRoutinesPage> {
-  late TextEditingController _homeLatitudeController;
-  late TextEditingController _homeLongitudeController;
-  late TextEditingController _radiusController;
 
-  bool _apagarLuzQuarto = false;
   bool _ligarLuzSala = false;
+  bool _ligarLuzCozinha = false;
+  bool _ligarLuzGaragem = false;
+
+  // Valores RGB para o quarto
+  int _vermelhoRgbQuarto = 0;
+  int _verdeRgbQuarto = 0;
+  int _azulRgbQuarto = 0;
 
   @override
   void initState() {
     super.initState();
-    _homeLatitudeController = TextEditingController(text: "-5.7945");
-    _homeLongitudeController = TextEditingController(text: "-35.211");
-    _radiusController = TextEditingController(text: "0.001");
   }
 
   @override
   void dispose() {
-    _homeLatitudeController.dispose();
-    _homeLongitudeController.dispose();
-    _radiusController.dispose();
     super.dispose();
   }
 
@@ -41,30 +38,9 @@ class _EditRoutinesPageState extends State<EditRoutinesPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
-              controller: _homeLatitudeController,
-              decoration: InputDecoration(labelText: "Latitude da Casa"),
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-            ),
-            TextField(
-              controller: _homeLongitudeController,
-              decoration: InputDecoration(labelText: "Longitude da Casa"),
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-            ),
-            TextField(
-              controller: _radiusController,
-              decoration: InputDecoration(labelText: "Raio (em graus)"),
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-            ),
-            SwitchListTile(
-              title: Text("Apagar Luz do Quarto ao Sair"),
-              value: _apagarLuzQuarto,
-              onChanged: (bool value) {
-                setState(() {
-                  _apagarLuzQuarto = value;
-                });
-              },
-            ),
+            // Campos de Latitude, Longitude e Raio
+            SizedBox(height: 20),
+            // Switch para luzes
             SwitchListTile(
               title: Text("Ligar Luz da Sala ao Chegar"),
               value: _ligarLuzSala,
@@ -74,14 +50,64 @@ class _EditRoutinesPageState extends State<EditRoutinesPage> {
                 });
               },
             ),
+            SwitchListTile(
+              title: Text("Ligar Luz da Cozinha ao Chegar"),
+              value: _ligarLuzCozinha,
+              onChanged: (bool value) {
+                setState(() {
+                  _ligarLuzCozinha = value;
+                });
+              },
+            ),
+            SwitchListTile(
+              title: Text("Ligar Luz da Garagem ao Chegar"),
+              value: _ligarLuzGaragem,
+              onChanged: (bool value) {
+                setState(() {
+                  _ligarLuzGaragem = value;
+                });
+              },
+            ),
+            SizedBox(height: 20),
+            // Campos RGB para o Quarto
+            TextField(
+              decoration: InputDecoration(labelText: "Vermelho (0-255)"),
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                setState(() {
+                  _vermelhoRgbQuarto = int.tryParse(value) ?? 0;
+                });
+              },
+            ),
+            TextField(
+              decoration: InputDecoration(labelText: "Verde (0-255)"),
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                setState(() {
+                  _verdeRgbQuarto = int.tryParse(value) ?? 0;
+                });
+              },
+            ),
+            TextField(
+              decoration: InputDecoration(labelText: "Azul (0-255)"),
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                setState(() {
+                  _azulRgbQuarto = int.tryParse(value) ?? 0;
+                });
+              },
+            ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                final locationProvider =
-                    Provider.of<LocationProvider>(context, listen: false);
+                final locationProvider = Provider.of<LocationProvider>(context, listen: false);
                 locationProvider.saveRoutine(
-                  apagarLuzQuarto: _apagarLuzQuarto,
                   ligarLuzSala: _ligarLuzSala,
+                  ligarLuzCozinha: _ligarLuzCozinha,
+                  ligarLuzGaragem: _ligarLuzGaragem,
+                  vermelhoRgbQuarto: _vermelhoRgbQuarto,
+                  verdeRgbQuarto: _verdeRgbQuarto,
+                  azulRgbQuarto: _azulRgbQuarto,
                 );
                 Navigator.pop(context);
               },
