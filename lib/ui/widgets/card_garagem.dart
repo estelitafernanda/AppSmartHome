@@ -3,7 +3,6 @@ import 'package:appsmarthome/service/garagem_service.dart';
 import 'package:appsmarthome/ui/widgets/estado_botao.dart';
 import 'package:flutter/material.dart';
 
-
 class GaragemCard extends StatefulWidget {
   const GaragemCard({super.key});
 
@@ -13,7 +12,7 @@ class GaragemCard extends StatefulWidget {
 
 class _GaragemCard extends State<GaragemCard> {
   bool _estaCarregando = true;
-  late GaragemModel garagem = GaragemModel(nome: "sala", lampadaLigada: false, estadoMotor: false);
+  late GaragemModel garagem = GaragemModel(nome: "garagem", lampadaLigada: false, estadoMotor: false);
   late GaragemService garagemService;
 
   @override
@@ -39,7 +38,6 @@ class _GaragemCard extends State<GaragemCard> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -60,25 +58,40 @@ class _GaragemCard extends State<GaragemCard> {
             Center(
               child: _estaCarregando
                   ? const CircularProgressIndicator()
-                  : LightButton(
-                estadoLampada: garagem.lampadaLigada,
-                onPressed: () async {
-                  setState(() {
-                    garagem.alterarEstadoLampada();
-                  });
-                  await garagemService.atualizarEstadoLampada(garagem);
-                },
+                  : Column(
+                      children: [
+                        LightButton(
+                          estadoLampada: garagem.lampadaLigada,
+                          onPressed: () async {
+                            setState(() {
+                              garagem.alterarEstadoLampada();
+                            });
+                            await garagemService.atualizarEstadoLampada(garagem);
+                          },
+                        ),
+                        const SizedBox(height: 15),
+                        ElevatedButton(
+                          onPressed: () async {
+                            setState(() {
+                              garagem.estadoMotor = !garagem.estadoMotor; // Alterna o estado do motor
+                            });
+                            await garagemService.atualizarEstadoMotor(garagem); // Atualiza o estado do motor no banco de dados
+                          },
+                          child: Text(
+                            garagem.estadoMotor ? 'Desligar Ventilador' : 'Ligar Ventilador',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
+          );
+        }
 
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
+        @override
+          void dispose() {
+          super.dispose();
+        }
 }
